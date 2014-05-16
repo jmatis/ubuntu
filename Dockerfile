@@ -15,6 +15,7 @@ RUN update-rc.d -f supervisor disable
 # sshd modifications; switch off PAM for sshd as it does not work and i can not be bothered to investigate why 
 RUN mkdir /var/run/sshd
 RUN sed -e 's/UsePAM yes/UsePAM no/' -i /etc/ssh/sshd_config
+RUN sed -e 's/Port 22/Port 2022/' -i /etc/ssh/sshd_config
 
 # get locales
 RUN locale-gen en_US en_US.UTF-8 && dpkg-reconfigure locales
@@ -32,6 +33,6 @@ RUN wget https://raw.githubusercontent.com/jmatis/ubuntu/master/supervisord-rsys
 RUN useradd -d /home/admin -m -G sudo -s /bin/bash admin
 RUN echo "admin:newroot" | chpasswd
 
-EXPOSE 22
+EXPOSE 2022
 
 CMD ["/usr/bin/supervisord"]
